@@ -8,9 +8,9 @@ Library           OperatingSystem
 # Credentials
 ${admin_user}=   Admin
 ${admin_pass}=   Admin
-${test_user}=    testuser
-${test_pass}=    testpass
-${test_email}=    javier.melian@atos.net
+${test_user}=     %{TEST_USER}
+${test_pass}=    %{TEST_PASS}
+${test_email}=    %{TEST_EMAIL}
 # Descriptors
 ${test_vnfd_pkg_bad}=    %{PACKAGES_DIR}/cirros_vnf.tar.gz
 ${test_vnfd_pkg_ok}=    %{PACKAGES_DIR}/hackfest_1_vnfd_fixed.tar.gz
@@ -39,43 +39,43 @@ Create Multi Part
 
 *** Test Cases ***
 
-# Register New User
-#     # Request preparation
-#     ${headers}=   create dictionary   Content-Type=application/x-www-form-urlencoded
-#     ${params}=   create dictionary   username=${test_user}    email=${test_email}   password=${test_pass}
-#     ${false}=    Convert To Boolean    False
-#     Create Session  alias=Dispatcher  url=${dispatcher_URL}   headers=${headers}   verify=${false}
+Register New User
+    # Request preparation
+    ${headers}=   create dictionary   Content-Type=application/x-www-form-urlencoded
+    ${params}=   create dictionary   username=${test_user}    email=${test_email}   password=${test_pass}
+    ${false}=    Convert To Boolean    False
+    Create Session  alias=Dispatcher  url=${dispatcher_URL}   headers=${headers}   verify=${false}
 
-#     # Request
-#     ${resp}=   Post Request  Dispatcher   /auth/register   data=${params}
+    # Request
+    ${resp}=   Post Request  Dispatcher   /auth/register   data=${params}
 
-#     # VALIDATIONS
-#     #Should Be Equal As Strings  ${resp.json()['transaction']['status']}  success
-#     Should Be Equal As Strings  ${resp.status_code}  200
+    # VALIDATIONS
+    #Should Be Equal As Strings  ${resp.json()['transaction']['status']}  success
+    Should Be Equal As Strings  ${resp.status_code}  200
 
-#     # Output
-#     log to console   ${resp}
-#     log   ${resp.json()}
+    # Output
+    log to console   ${resp}
+    log   ${resp.json()}
 
 
-# Validate User
-#     # Request preparation
-#     ${headers}=   create dictionary   Content-Type=application/json  Authorization=Basic ABCDEF==
-#     ${auth}=  Create List  ${admin_user}  ${admin_pass}
-#     ${false}=    Convert To Boolean    False
-#     Create Session  alias=Dispatcher  url=${dispatcher_URL}  headers=${headers}  auth=${auth}   verify=${false}
+Validate User
+    # Request preparation
+    ${headers}=   create dictionary   Content-Type=application/json  Authorization=Basic ABCDEF==
+    ${auth}=  Create List  ${admin_user}  ${admin_pass}
+    ${false}=    Convert To Boolean    False
+    Create Session  alias=Dispatcher  url=${dispatcher_URL}  headers=${headers}  auth=${auth}   verify=${false}
 
-#     # Request
-#     ${resp}=   Put Request  Dispatcher   /auth/validate_user/${test_user}
-#     ${resp_body}=    convert to string   ${resp.content}
+    # Request
+    ${resp}=   Put Request  Dispatcher   /auth/validate_user/${test_user}
+    ${resp_body}=    convert to string   ${resp.content}
 
-#     # VALIDATIONS
-#     Should Be Equal As Strings  ${resp.status_code}  200
-#     should contain   ${resp.content}    Changes applied
+    # VALIDATIONS
+    Should Be Equal As Strings  ${resp.status_code}  200
+    should contain   ${resp.content}    Changes applied
 
-#     # Output
-#     log to console   ${resp}
-#     log   ${resp.json()}
+    # Output
+    log to console   ${resp}
+    log   ${resp.json()}
 
 
 Show Users
@@ -97,6 +97,7 @@ Show Users
 
 
 Get User Token
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Content-Type=application/json  Authorization=Basic ABCDEF==
     ${auth}=  Create List  ${test_user}  ${test_pass}
@@ -119,6 +120,7 @@ Get User Token
 
 
 List VIMs
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Content-Type=application/json   Authorization=${token}
     ${false}=    Convert To Boolean    False
@@ -135,6 +137,7 @@ List VIMs
 
 
 Upload Image VIM
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Authorization=${token}
     ${false}=    Convert To Boolean    False
@@ -157,6 +160,7 @@ Upload Image VIM
 
 
 Index Faulty VNFD (Token Auth)
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Authorization=${token}
     ${false}=    Convert To Boolean    False
@@ -178,6 +182,7 @@ Index Faulty VNFD (Token Auth)
 
 
 Index VNFD (Token Auth)
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Authorization=${token}
     ${false}=    Convert To Boolean    False
@@ -196,6 +201,7 @@ Index VNFD (Token Auth)
 
 
 Get VNFD list (Token Auth)
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Content-Type=application/json  Authorization=${token}
     ${false}=    Convert To Boolean    False
@@ -210,6 +216,7 @@ Get VNFD list (Token Auth)
 
 
 Get VNFD list (Basic Auth)
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Content-Type=application/json   Authorization=Basic ABCDEF==
     ${auth}=  Create List   ${test_user}   ${test_pass}
@@ -225,6 +232,7 @@ Get VNFD list (Basic Auth)
 
 
 Index Faulty NSD (Token Auth)
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Authorization=${token}
     ${false}=    Convert To Boolean    False
@@ -246,6 +254,7 @@ Index Faulty NSD (Token Auth)
 
 
 Index NSD (Token Auth)
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Authorization=${token}
     ${false}=    Convert To Boolean    False
@@ -264,6 +273,7 @@ Index NSD (Token Auth)
 
 
 Get NSD list (Token Auth)
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Content-Type=application/json  Authorization=${token}
     ${false}=    Convert To Boolean    False
@@ -278,6 +288,7 @@ Get NSD list (Token Auth)
 
 
 Validate Bad Experiment Descriptor
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Authorization=${token}
     ${false}=    Convert To Boolean    False
@@ -294,6 +305,7 @@ Validate Bad Experiment Descriptor
 
 
 Validate Experiment Descriptor
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Authorization=${token}
     ${false}=    Convert To Boolean    False
@@ -309,6 +321,7 @@ Validate Experiment Descriptor
 
 
 Delete NSD
+    sleep  5s
     # Request preparation
     ${headers}=   create dictionary   Authorization=${token}
     ${false}=    Convert To Boolean    False

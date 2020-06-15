@@ -6,6 +6,9 @@ ENV ROBOT_RESULTS_DIR /robotTesting/results
 ENV PACKAGES_DIR /robotTesting/packages
 ENV VIM_NAME malagacore
 ENV IMAGE test_image.img
+ENV TEST_USER testuser
+ENV TEST_PASS testpass
+ENV TEST_EMAIL <email address>
 ENV API_URL https://10.0.2.15:8082
 #5MB
 ENV IMAGE_SIZE 5000
