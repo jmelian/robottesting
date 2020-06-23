@@ -21,7 +21,7 @@ ${test_nsd_id}=    hackfest_1_nsd
 ${test_experiment_bad}=   %{PACKAGES_DIR}/exp.json
 ${test_experiment_ok}=   %{PACKAGES_DIR}/exp_fixed.json
 # VIM
-${test_image_file}=   %{PACKAGES_DIR}/%{IMAGE}
+${test_image_file}=   %{PACKAGES_DIR}/%{TEST_IMAGE}
 ${vim_name}=   %{VIM_NAME}
 
 
@@ -67,11 +67,10 @@ Validate User
 
     # Request
     ${resp}=   Put Request  Dispatcher   /auth/validate_user/${test_user}
-    ${resp_body}=    convert to string   ${resp.content}
 
     # VALIDATIONS
     Should Be Equal As Strings  ${resp.status_code}  200
-    should contain   ${resp.content}    Changes applied
+    should contain   ${resp.text}    Changes applied
 
     # Output
     log to console   ${resp}
@@ -92,7 +91,6 @@ Show Users
     Should Be Equal As Strings  ${resp.status_code}  200
 
     # Output
-    log to console   ${resp}
     log   ${resp.json()}
 
 
@@ -248,8 +246,8 @@ Index Faulty NSD (Token Auth)
     # VALIDATIONS
     log   ${resp.json()}
     ${error} =  Get From Dictionary  ${resp.json()}   error
-    #Should Be Equal  ${error}   Some VNFs have invalid descriptors
-    #Should Be Equal As Strings  ${resp.json()['error']}   Some VNFs have invalid descriptors
+    Should Be Equal  ${error}   Some NSD have invalid descriptors
+    #Should Be Equal As Strings  ${resp.json()['error']}   Some NSD have invalid descriptors
     Should Be Equal As Strings    ${resp.status_code}    400
 
 
@@ -317,6 +315,26 @@ Validate Experiment Descriptor
 
     # VALIDATIONS
     log   ${resp.json()}
+    Should Be Equal As Strings    ${resp.status_code}    200
+
+
+Onboard NSD (Token Auth)
+    sleep  5s
+    # Request preparation
+    ${headers}=   create dictionary   Authorization=${token}
+    ${false}=    Convert To Boolean    False
+    Create Session  alias=Dispatcher  url=${dispatcher_URL}   headers=${headers}   verify=${false}
+
+    # Data
+    &{data}=    Create Dictionary    ns=${test_nsd_id}
+
+    ${resp}=    Post Request    Dispatcher   /mano/onboard    data=${data}
+
+    # VALIDATIONS
+    log   ${resp.json()}
+    ${error} =  Get From Dictionary  ${resp.json()}   error
+    #Should Be Equal  ${error}   Some VNFs have invalid descriptors
+    #Should Be Equal As Strings  ${resp.json()['error']}   Some VNFs have invalid descriptors
     Should Be Equal As Strings    ${resp.status_code}    200
 
 
