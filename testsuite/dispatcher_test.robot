@@ -157,6 +157,21 @@ Upload Image VIM
 
 
 
+Get Image List
+    sleep  5s
+    # Request preparation
+    ${headers}=   create dictionary   Authorization=${token}
+    ${false}=    Convert To Boolean    False
+    Create Session  alias=Dispatcher  url=${dispatcher_URL}   headers=${headers}   verify=${false}
+
+    ${resp}=    Post Request    Dispatcher   /mano/image
+
+    # VALIDATIONS
+    log   ${resp.json()}
+    #Should Be Equal As Strings  ${resp.json()['error']}   Some VNFs have invalid descriptors
+    Should Be Equal As Strings    ${resp.status_code}    200
+
+
 Index Faulty VNFD (Token Auth)
     sleep  5s
     # Request preparation
@@ -295,7 +310,7 @@ Validate Bad Experiment Descriptor
     # Data
     ${file_data}=    Get File    ${test_experiment_bad}
 
-    ${resp}=    Post Request    Dispatcher   /distributor/validate/ed    data=${file_data}
+    ${resp}=    Post Request    Dispatcher   /elcm/validate/ed    data=${file_data}
 
     # VALIDATIONS
     log   ${resp.json()}
@@ -311,7 +326,7 @@ Validate Experiment Descriptor
 
     # Data
     ${file_data}=    Get File    ${test_experiment_ok}
-    ${resp}=    Post Request    Dispatcher   /distributor/validate/ed    data=${file_data}
+    ${resp}=    Post Request    Dispatcher   /elcm/validate/ed    data=${file_data}
 
     # VALIDATIONS
     log   ${resp.json()}
@@ -355,33 +370,33 @@ Delete NSD
     Should Be Equal As Strings    ${resp.status_code}    200
 
 
-# Delete User
-#     # Request preparation
-#     ${headers}=   create dictionary   Content-Type=application/json  Authorization=Basic ABCDEF==
-#     ${auth}=  Create List  ${test_user}  ${test_pass}
-#     #${auth}=  Create List  ${admin_user}  ${admin_pass}
-#     ${false}=    Convert To Boolean    False
-#     Create Session  alias=Dispatcher  url=${dispatcher_URL}  headers=${headers}  auth=${auth}   verify=${false}
+Delete User
+    # Request preparation
+    ${headers}=   create dictionary   Content-Type=application/json  Authorization=Basic ABCDEF==
+    ${auth}=  Create List  ${test_user}  ${test_pass}
+    #${auth}=  Create List  ${admin_user}  ${admin_pass}
+    ${false}=    Convert To Boolean    False
+    Create Session  alias=Dispatcher  url=${dispatcher_URL}  headers=${headers}  auth=${auth}   verify=${false}
 
-#     # Request
-#     ${resp}=   Delete Request  Dispatcher   /auth/delete_user/${test_user}
+    # Request
+    ${resp}=   Delete Request  Dispatcher   /auth/delete_user/${test_user}
 
-#     # VALIDATIONS
-#     Should Be Equal As Strings  ${resp.status_code}  200
+    # VALIDATIONS
+    Should Be Equal As Strings  ${resp.status_code}  200
 
 
-# Drop Database
-#     # Request preparation
-#     ${headers}=   create dictionary   Content-Type=application/json  Authorization=Basic ABCDEF==
-#     ${auth}=  Create List  ${test_user}  ${test_pass}
-#     #${auth}=  Create List  ${admin_user}  ${admin_pass}
-#     ${false}=    Convert To Boolean    False
-#     Create Session  alias=Dispatcher  url=${dispatcher_URL}  headers=${headers}  auth=${auth}   verify=${false}
+Drop Database
+    # Request preparation
+    ${headers}=   create dictionary   Content-Type=application/json  Authorization=Basic ABCDEF==
+    ${auth}=  Create List  ${test_user}  ${test_pass}
+    #${auth}=  Create List  ${admin_user}  ${admin_pass}
+    ${false}=    Convert To Boolean    False
+    Create Session  alias=Dispatcher  url=${dispatcher_URL}  headers=${headers}  auth=${auth}   verify=${false}
 
-#     # Request
-#     ${resp}=   Delete Request  Dispatcher   /auth/drop_db
+    # Request
+    ${resp}=   Delete Request  Dispatcher   /auth/drop_db
 
-#     # VALIDATIONS
-#     Should Be Equal As Strings  ${resp.status_code}  200
+    # VALIDATIONS
+    Should Be Equal As Strings  ${resp.status_code}  200
 
 
