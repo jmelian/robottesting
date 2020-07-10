@@ -25,4 +25,4 @@ EXPOSE 80
 #ENTRYPOINT sed 's@\/home@'"$ROBOT_RESULTS_DIR"'@g' /etc/lighttpd/lighttpd.conf > /etc/lighttpd/lighttpd.conf2 && mv /etc/lighttpd/lighttpd.conf2 /etc/lighttpd/lighttpd.conf && service lighttpd restart && /bin/bash
 ENTRYPOINT ["sh", "./start.sh"]
 # Execute all robot tests
-#CMD ["run-tests-in-virtual-screen.sh"]
+#CMD ["runtests.sh"]
