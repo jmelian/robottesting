@@ -46,6 +46,23 @@ robot tests/
 
 Esto ejecutará todos los casos de prueba que se encuentren en el directorio `tests/` y generará los reportes correspondientes.
 
+---
+
+### Scripts del Proyecto
+El repositorio incluye varios scripts de shell para automatizar tareas comunes del proyecto. Aquí se detalla la función de cada uno:
+
+* __build.sh__: Este script automatiza la creación y el lanzamiento del entorno de pruebas. Elimina cualquier contenedor de Docker anterior llamado robot, construye una nueva imagen llamada robottest y luego inicia un nuevo contenedor en segundo plano, exponiendo el puerto 8002.
+
+* __start.sh__: Este script se ejecuta dentro del contenedor de Docker. Configura el servidor web lighttpd para servir los resultados de las pruebas desde el directorio especificado por la variable de entorno $ROBOT_RESULTS_DIR y luego reinicia el servicio.
+
+* __remove.sh__: A pesar de su nombre, este script actúa como un reiniciador completo del entorno. Primero elimina cualquier contenedor de Docker anterior llamado robot6, luego construye la imagen robottest y finalmente inicia un nuevo contenedor, robot6, en el puerto 8001, y abre una terminal interactiva dentro de él.
+
+* __runtests.sh__: Este script se encarga de ejecutar el framework Robot Framework. Se conecta al contenedor de Docker llamado robot y ejecuta las pruebas definidas en testsuite/dispatcher_test.robot, guardando los resultados en el directorio results.
+
+* __test.sh__: Este script es similar a runtests.sh, pero está configurado para conectarse a un contenedor diferente, llamado robot2, para ejecutar las mismas pruebas.
+
+---
+
 ### Contribuciones
 Las contribuciones son bienvenidas. Si deseas mejorar el proyecto, por favor:
 
