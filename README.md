@@ -29,7 +29,7 @@ Para empezar a utilizar este proyecto, sigue los siguientes pasos:
     ```
 
 2.  **Instala las dependencias (si aplica):**
-    Si el proyecto utiliza Robot Framework, es probable que necesites instalarlo vía `pip`.
+    El proyecto utiliza Robot Framework y es necesario instalarlo vía `pip`:
     ```bash
     pip install robotframework
     ```
@@ -38,7 +38,7 @@ Para empezar a utilizar este proyecto, sigue los siguientes pasos:
 
 ### Uso
 
-Para ejecutar las pruebas del proyecto, usa el comando adecuado del *test runner*. Por ejemplo, si usas `Robot Framework`, el comando podría ser:
+Para ejecutar las pruebas del proyecto, usa el comando adecuado del *test runner*. Por ejemplo, si usas `Robot Framework`, el comando sería:
 
 ```bash
 robot tests/
@@ -66,15 +66,15 @@ El repositorio incluye varios scripts de shell para automatizar tareas comunes d
 ### Contribuciones
 Las contribuciones son bienvenidas. Si deseas mejorar el proyecto, por favor:
 
-Haz un "fork" del repositorio.
+1. Haz un "fork" del repositorio.
 
-Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
 
-Realiza tus cambios y haz un "commit" (`git commit -am 'Add new feature'`).
+3. Realiza tus cambios y haz un "commit" (`git commit -am 'Add new feature'`).
 
-Haz un "push" a la rama (`git push origin feature/nueva-funcionalidad`).
+4. Haz un "push" a la rama (`git push origin feature/nueva-funcionalidad`).
 
-Crea una nueva solicitud de extracción (`Pull Request`).
+5. Crea una nueva solicitud de extracción (`Pull Request`).
 
 ### Licencia
 Este proyecto está bajo la licencia Apache 2.0.
